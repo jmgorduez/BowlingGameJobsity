@@ -61,7 +61,6 @@ public class BowlingGameScoreReader implements IBowlingGameScoreReader {
                 continue;
             }
             rollsByFrame.add(joinRollsOfAFrame(pinfallsValues::poll, pinfallsValues::poll));
-            continue;
         }
         return rollsByFrame.stream();
     }
@@ -89,7 +88,8 @@ public class BowlingGameScoreReader implements IBowlingGameScoreReader {
         return rollsByFrame.size() >= NINE;
     }
 
-    private String joinRollsOfAFrame(Supplier<PinfallsNumber>... elements) {
+    @SafeVarargs
+    private final String joinRollsOfAFrame(Supplier<PinfallsNumber>... elements) {
         return Arrays.stream(elements)
                 .map(Supplier::get)
                 .filter(Objects::nonNull)
